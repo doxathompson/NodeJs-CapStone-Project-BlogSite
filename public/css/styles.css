@@ -1,0 +1,41 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.main-text{
+    padding: 3rem 0;
+    font-weight: 900;
+}
+
+#title{
+    display: block;
+    margin: 0 auto;
+    width: 55%;
+}
+#blog_content{
+    width: 80%;
+    margin: 0 auto;
+    display: block;
+}
+
+form{
+    text-align: center;
+}
+form button{
+    margin: 0 auto;
+    display: block;
+}
+.image{
+    padding-bottom: 2rem;
+}
+
+.whole{
+    padding: 3rem 0;
+}
+
+footer{
+    background-color: rgb(13,110,253);
+    padding: 0.5rem 0;
+}

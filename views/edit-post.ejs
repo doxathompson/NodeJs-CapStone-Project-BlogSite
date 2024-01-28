@@ -1,0 +1,8 @@
+
+
+<!-- Edit Post Form -->
+<form action="/edit-post/<%= post.id %>" method="POST">
+    <input type="text" name="title" id="title" value="<%= post.title %>">
+    <textarea name="content" rows="4" cols="50"><%= post.content %></textarea><br>
+    <button type="submit">Save Post</button>
+</form>
