@@ -9,7 +9,7 @@ git clone  https://github.com/doxathompson/NodeJs-CapStone-Project-BlogSite.git
 ```
 - Install dependencies
 ```
-cd <project_name>
+cd NodeJs-CapStone-Project-BlogSite
 npm install
 ```
 - Build and run the project
