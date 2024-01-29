@@ -35,6 +35,13 @@ form button{
     padding: 3rem 0;
 }
 
+.buttons{
+    margin: 0 auto;
+}
+.btn-element{
+    margin: 3px;
+}
+
 footer{
     background-color: rgb(13,110,253);
     padding: 0.5rem 0;

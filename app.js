@@ -1,6 +1,8 @@
 import express from 'express';
 import bodyParser from "body-parser";
 import ejs from 'ejs';
+import multer from 'multer';
+import path from 'path';
 
 
 const app = express();
@@ -11,6 +13,19 @@ app.set('view engine', 'ejs');
 
 // Serve static files from the "public" directory
 app.use(express.static("public"));
+
+// Set up multer for handling file uploads
+const storage = multer.diskStorage({
+    destination: './public/uploads/', // specify the directory for storing uploaded files
+    filename: function (req, file, cb) {
+        cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
+    }
+});
+
+const upload = multer({
+    storage: storage
+}).single('image'); // 'image' should match the name attribute of your file input field
+
 
 // Parse URL-encoded bodies for form data
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -26,29 +41,39 @@ app.get("/", (req, res) =>{
 
 
 // Create post request
-app.post("/create-post", (req, res) =>{
-    //linked the variabls to the data from index.ejs
-    const title = req.body.title;
-    const content = req.body.content;
+app.post("/create-post", (req, res) => {
+    // Middleware to handle file upload
+    upload(req, res, (err) => {
+        if (err) {
+            console.error(err);
+            // Handle error
+            return;
+        }
 
-    //To test if it was working
-    // console.log('New Post:');
-    // console.log('Title:', title);
-    // console.log('Content:', content);
+        // Extract data from the request
+        const title = req.body.title;
+        const content = req.body.content;
+        const image = req.file ? req.file.filename : null; // Check if file exists before accessing filename
 
-    // Generate a unique ID for the post
-    const postId = postIdCounter++;
+        // Generate a unique ID for the post
+        const postId = postIdCounter++;
 
-    // Create a new post object and add it to the array
-    const newPost = { 
-        id: postId, 
-        title: title, 
-        content: content 
-    };
-    posts.push(newPost);
-    // Redirect the user back to the home page
-    res.redirect('/');
-} );
+        // Create a new post object and add it to the array
+        const newPost = { 
+            id: postId, 
+            title: title, 
+            content: content,
+            image: image // Add image field to the new post object 
+        };
+
+        // Push the new post to the array
+        posts.push(newPost);
+
+        // Redirect the user back to the home page
+        res.redirect('/');
+    });
+});
+
 
 // Display the edit form for a specific post
 app.get('/edit-post/:postId', (req, res) => {
